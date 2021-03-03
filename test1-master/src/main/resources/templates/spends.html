@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主界面</title>
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id = "selectResult">
+    <table class="table table-dark table-hover">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>一日三餐</th>
+            <th>日常用品</th>
+            <th>穿戴衣物</th>
+            <th>零食水果</th>
+            <th>备注</th>
+            <th>时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="spend : ${spendList}">
+            <td th:text="${spend.id}"></td>
+            <td th:text="${spend.sancan}"></td>
+            <td th:text="${spend.richang}"></td>
+            <td th:text="${spend.chuandai}"></td>
+            <td th:text="${spend.lingshi}"></td>
+            <td th:text="${spend.remark}"></td>
+            <td th:text="${spend.date}"></td>
+            <td>
+                <a th:href = "@{/spend+{id}(id=${spend.id})}">修改</a>
+                <a th:href = "@{/deleteSpend+{id}(id=${spend.id})}" id = "delete">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id = "addSpend">
+    <form name="addSpend" >
+        <div class="form-group">
+            <label for="sancan">三餐:</label>
+            <input type="text" class="form-control" name="sancan" id="sancan">
+        </div>
+        <div class="form-group">
+            <label for="richang">日常:</label>
+            <input type="text" class="form-control" name="richang" id = "richang">
+        </div>
+        <div class="form-group">
+            <label for="chuandai">穿戴:</label>
+            <input type="text" class="form-control" name="chuandai" id = "chuandai">
+        </div>
+        <div class="form-group">
+            <label for="lingshi">零食:</label>
+            <input type="text" class="form-control" name="lingshi" id = "lingshi">
+        </div>
+        <div class="form-group">
+            <label for="remark">备注:</label>
+            <input type="text" class="form-control" name="remark" id = "remark">
+        </div>
+        <div class="form-group">
+            <label for="remark">时间:</label>
+            <input type="date" class="form-control" name="date" id = "date">
+        </div>
+    </form>
+    <button id="add">增加</button>
+</div>
+
+<script >
+
+    //添加用户js响应事件
+    $("#add").click(function(){
+        var sancan = document.forms["addSpend"]["sancan"].value;
+        var richang = document.forms["addSpend"]["richang"].value;
+        var chuandai = document.forms["addSpend"]["chuandai"].value;
+        var lingshi = document.forms["addSpend"]["lingshi"].value;
+        var remark = document.forms["addSpend"]["remark"].value;
+        var date = document.forms["addSpend"]["date"].value;
+
+            var param = {
+                "sancan": sancan,
+                "richang": richang,
+                "chuandai": chuandai,
+                "lingshi" : lingshi,
+                "remark" : remark,
+                "date" : date
+            };
+            $.ajax({
+                url:"/addSpend", //请求url
+                data: param,    //请求参数
+                async: true,    //是否异步
+                success: function f(result) {
+                    //window.confirm(result.msg); //新增用户成功提示框
+                    location.href = "spends";    //重新加载界面，同步数据库信息
+                    location.reload();
+                }
+            });
+
+    });
+</script>
+</body>
+</html>

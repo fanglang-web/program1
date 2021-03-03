@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SpendInfo</title>
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="modifySpend">
+    <form name="modifySpend">
+        <div class="form-group">
+            <label for="id">id:</label>
+            <input type="text" class="form-control" name="id" id="id" th:value="${spendBean.getId()}" disabled>
+        </div>
+        <div class="form-group">
+            <label for="sancan">sancan:</label>
+            <input type="text" class="form-control" name="sancan" id="sancan" th:value="${spendBean.getSancan()}" >
+        </div>
+        <div class="form-group">
+            <label for="richang">richang:</label>
+            <input type="text" class="form-control" name="richang" id="richang" th:value="${spendBean.getRichang()}" >
+        </div>
+        <div class="form-group">
+            <label for="chuandai">chuandai:</label>
+            <input type="text" class="form-control" name="chuandai" id="chuandai" th:value="${spendBean.getChuandai()}" >
+        </div>
+        <div class="form-group">
+            <label for="lingshi">lingshi:</label>
+            <input type="text" class="form-control" name="lingshi" id="lingshi" th:value="${spendBean.getLingshi()}" >
+        </div>
+        <div class="form-group">
+            <label for="remark">remark:</label>
+            <input type="text" class="form-control" name="remark" id="remark" th:value="${spendBean.getRemark()}" >
+        </div>
+
+    </form>
+    <button id = "modify">modifySpend</button>
+</div>
+<script >
+    //字符串判空方法
+    function isBlank(str){
+        if(str == "" || str == null || str == undefined){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    //添加用户js响应事件
+    $("#modify").click(function(){
+        var id = $("#id").val();
+        var sancan = $("#sancan").val();
+        var richang = $("#richang").val();
+        var chuandai = $("#chuandai").val();
+        var lingshi = $("#lingshi").val();
+        var remark = $("#remark").val();
+
+
+            var param = {
+                "id": id,
+                "sancan": sancan,
+                "richang": richang,
+                "chuandai": chuandai,
+                "lingshi": lingshi,
+                "remark": remark
+            };
+            $.ajax({
+                url:"/modifySpend", //请求url
+                data: param,    //请求参数
+                async: true,    //是否异步
+                success: function f(result) {
+                    window.confirm(result.msg); //修改用户信息成功提示框
+                    //location.href = "spends";//重新加载界面，同步数据库信息
+                    window.location.href="spends";
+                    window.location.reload();
+                }
+            });
+
+
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.test.mapper.SpendMapper">
+
+
+    <!--根据ID查询用户信息-->
+    <select id="selectSpendById" parameterType="int" resultType="com.example.test.bean.SpendBean">
+        SELECT * FROM spend
+        WHERE id = #{id};
+    </select>
+
+    <!--插入新用户信息，ID是自动生成的,返回数据库操作影响行数，为0则是失败-->
+    <insert id="saveSpend" parameterType="com.example.test.bean.SpendBean">
+        INSERT INTO
+            spend(sancan,richang,chuandai,lingshi,remark,date)
+        values
+            (#{sancan},#{richang},#{chuandai},#{lingshi},#{remark},#{date});
+    </insert>
+
+    <!--根据ID删除用户，返回数据库操作影响行数，为0则是失败-->
+    <delete id="deleteSpend" parameterType="int">
+        DELETE FROM spend
+        WHERE id = #{id};
+    </delete>
+
+    <!--根据ID修改用户信息，返回数据库操作影响行数，为0则是失败-->
+    <update id="updateSpend" parameterType="com.example.test.bean.SpendBean">
+        UPDATE spend
+        SET sancan = #{sancan},
+        richang = #{richang},
+        chuandai = #{chuandai},
+        lingshi = #{lingshi}
+        WHERE id = #{id};
+    </update>
+
+    <!--查询所有用户信息，返回一个List<Bean>-->
+    <select id="getAllSpend" resultType="com.example.test.bean.SpendBean">
+        SELECT * FROM spend ;
+    </select>
+
+
+</mapper>
